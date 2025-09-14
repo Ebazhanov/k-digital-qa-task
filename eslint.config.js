@@ -25,5 +25,11 @@ module.exports = [
       ...tsPlugin.configs.recommended.rules,
       'prettier/prettier': 'error',
     },
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { vars: 'all', args: 'after-used', ignoreRestSiblings: true },
+      ],
+      'no-unused-vars': 'warn',
+      'no-undef': 'off',
   },
 ];

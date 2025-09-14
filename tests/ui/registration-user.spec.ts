@@ -1,9 +1,15 @@
-import { test, expect } from '@playwright/test';
+import test from '@playwright/test';
 import { faker } from '@faker-js/faker';
+
+function strongPassword(): string {
+  return (
+    faker.helpers.fromRegExp(/[A-Z]{1}[a-z]{3}[0-9]{2}[!@#$%^&*]{1}/) + faker.string.alphanumeric(1)
+  );
+}
 
 const fakeUser = faker.person.firstName();
 const fakeLastName = faker.person.lastName();
-const fakePassword = faker.internet.password();
+const fakePassword = strongPassword();
 const fakeEmail = faker.internet.email({ firstName: fakeUser, lastName: fakeLastName });
 
 test.describe('Registration Scenario (Success)', () => {
@@ -13,6 +19,7 @@ test.describe('Registration Scenario (Success)', () => {
     await page.locator('.consentForm__container').waitFor({ state: 'hidden' });
     await page.getByTestId('headerBrandLogin').click();
     await page.getByTestId('registerAccount').click();
+    await page.getByTestId('accountNewSalutation').selectOption('Herr');
     await page.getByTestId('firstNameInput').fill(fakeUser);
     await page.getByTestId('lastNameInput').fill(fakeLastName);
     await page.locator('.accountNew #email').fill(fakeEmail);
@@ -21,5 +28,6 @@ test.describe('Registration Scenario (Success)', () => {
     await page.getByTestId('newsletterCheckbox').click();
     await page.getByTestId('agbCheckbox').click();
     await page.getByTestId('register-submit').click();
+    await page.waitForResponse((res) => res.url().includes('register') && res.status() === 200);
   });
 });

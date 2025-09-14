@@ -1,6 +1,7 @@
 {
   "name": "krieger-digital-qa-task",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "test:headless": "npx playwright test",
     "test:open": "npx playwright test --ui",
