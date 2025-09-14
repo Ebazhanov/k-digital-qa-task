@@ -1,4 +1,4 @@
-name: UI Tests
+name: API Tests
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: ['*']
 
 jobs:
-  ui-test:
-    timeout-minutes: 60
+  api-test:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,19 +23,19 @@ jobs:
         run: npm run format:check
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run UI tests
-        run: npm run test:ui
+      - name: Run API tests
+        run: npm run test:api
       - name: Ensure test-results directory exists
         run: mkdir -p test-results/
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: ui-test-report
+          name: api-test-report
           path: playwright-report/
           retention-days: 30
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: ui-test-results
+          name: api-test-results
           path: test-results/
           retention-days: 30
