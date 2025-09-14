@@ -6,12 +6,7 @@ const prettierPlugin = require('eslint-plugin-prettier');
 module.exports = [
   {
     files: ['**/*.ts'],
-    ignores: [
-      'node_modules/',
-      'dist/',
-      'playwright-report/',
-      'test-results/'
-    ],
+    ignores: ['node_modules/', 'dist/', 'playwright-report/', 'test-results/'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -22,8 +17,8 @@ module.exports = [
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
-      'playwright': playwrightPlugin,
-      'prettier': prettierPlugin,
+      playwright: playwrightPlugin,
+      prettier: prettierPlugin,
     },
     rules: {
       ...playwrightPlugin.configs.recommended.rules,
