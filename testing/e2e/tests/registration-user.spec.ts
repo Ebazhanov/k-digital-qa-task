@@ -1,4 +1,4 @@
-import test from '@playwright/test';
+import { test, type Page } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { CookiesPopup } from '../pages/cookiesPopup.js';
 import { strongPassword } from '../util/strongPassword.js';
@@ -10,7 +10,11 @@ const fakePassword = strongPassword();
 const fakeEmail = faker.internet.email({ firstName: fakeUser, lastName: fakeLastName });
 
 test.describe('Registration Scenario (Success)', () => {
-  test('Should register a new user with randomly generated data', async ({ page }) => {
+  test('Should register a new user with randomly generated data', async ({
+    page,
+  }: {
+    page: Page;
+  }) => {
     const cookiesPopup = CookiesPopup(page);
     const homePage = HomePage(page);
 
