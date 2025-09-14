@@ -1,4 +1,4 @@
-import { test, type Page } from '@playwright/test';
+import { test, type Page, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { CookiesPopup } from '../pages/cookiesPopup.js';
 import { strongPassword } from '../util/strongPassword.js';
@@ -18,16 +18,13 @@ test.describe('Registration Scenario (Success)', () => {
     const cookiesPopup = CookiesPopup(page);
     const homePage = HomePage(page);
 
-    await test.step('Open the homepage', async () => {
+    await test.step('Open the homepage and accept cookies', async () => {
       await page.goto('/');
-    });
-
-    await test.step('Accept cookies', async () => {
       await cookiesPopup.acceptAllButton().click();
       await cookiesPopup.consentFormPopup().waitFor({ state: 'hidden' });
     });
 
-    await test.step('Open login menu', async () => {
+    await test.step('Navigate to login page', async () => {
       await homePage.loginMenu().click();
       await page.waitForURL('**/login');
     });
@@ -51,6 +48,10 @@ test.describe('Registration Scenario (Success)', () => {
     await test.step('Submit registration form', async () => {
       await page.getByTestId('register-submit').click();
       await page.waitForResponse((res) => res.url().includes('register') && res.status() === 200);
+    });
+
+    await test.step('Verify successfully registered User', async () => {
+      await expect(page.getByTestId('headerBrandLogin')).toHaveText(fakeUser + ' ' + fakeLastName);
     });
   });
 });

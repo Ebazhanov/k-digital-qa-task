@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker';
+
 /**
  * Generates a strong password that matches the following pattern:
  * - 1 uppercase letter
@@ -8,8 +10,6 @@
  *
  * Example output: Abcd12!x
  */
-import { faker } from '@faker-js/faker';
-
 export function strongPassword(): string {
   return (
     faker.helpers.fromRegExp(/[A-Z]{1}[a-z]{3}[0-9]{2}[!@#$%^&*]{1}/) + faker.string.alphanumeric(1)
