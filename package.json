@@ -11,6 +11,7 @@
     "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.0.0",
     "@playwright/test": "^1.55.0",
     "@types/node": "^24.3.3",
     "@typescript-eslint/eslint-plugin": "^8.43.0",
