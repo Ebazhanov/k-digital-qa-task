@@ -5,21 +5,25 @@
 ## ✨ Features
 
 ### "Exploratory" Testing Results
+
 - 🧪 Manual test cases for https://www.sofa.de/ (see `docs/manual-test-cases.md` or your Notion/Excel file) // TODD
 
 ### 🤖 E2E Automation
+
 - 💻 UI tests (Playwright, TypeScript, POM)
-    - 🔐 Registration, Login, Wishlist, Basket flows (see `testing/e2e/tests/`)
+  - 🔐 Registration, Login, Wishlist, Basket flows (see `testing/e2e/tests/`)
 - 🗄️ [Database Query Challenge](sql/query.sql)
-    - SQL for top 3 most expensive items by top-rated sellers
+  - SQL for top 3 most expensive items by top-rated sellers
 
 ### 📊 HTML Report in GH Actions
+
 - 🧪 [Playwright test results](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/playwright.yml)
 - 📂 Local: `npx playwright show-report` to view the HTML report after running tests
 
 ## 🧰 Getting Started
 
 #### ▶️ Run locally:
+
 - `$ npm install` to install dependencies
 - `$ npm run test:open` to open Playwright Test Runner (UI mode)
 - `$ npm run test:headless` to run all tests in headless mode
