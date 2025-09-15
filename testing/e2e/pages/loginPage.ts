@@ -10,6 +10,6 @@ export const LoginPage = (page: Page) => {
     emailField: () => page.getByTestId('loginEmailInput'),
     passwordField: () => page.getByTestId('loginPasswordInput'),
     loginSubmitButton: () => page.getByTestId('login-submit'),
-    loginEmailErrorMessage: () => page.getByTestId('#loginEmail-error'),
+    loginEmailErrorMessage: () => page.getByTestId('.formInput__error'),
   };
 };

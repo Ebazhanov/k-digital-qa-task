@@ -91,9 +91,11 @@ test.describe.serial('Registration Scenario (Success)', () => {
 
     await test.step('Login with wrong password', async () => {
       await loginPage.emailField().fill(fakeEmail);
+      await expect(loginPage.emailField()).toHaveValue(fakeEmail);
       await loginPage.passwordField().fill('wrongPassword123!');
+      await expect(loginPage.passwordField()).toHaveValue('wrongPassword123!');
       await loginPage.loginSubmitButton().click();
-      await expect(loginPage.loginEmailErrorMessage()).toHaveText(LOGIN_ERROR_MESSAGE);
+      await expect(page.getByText(LOGIN_ERROR_MESSAGE)).toBeVisible();
     });
   });
 });
