@@ -6,17 +6,23 @@ import { HomePage } from '../pages/homePage.js';
 import { RegistrationPage } from '../pages/registrationPage.js';
 import { LoginPage } from '../pages/loginPage.js';
 
-const fakeUser = faker.person.firstName();
-const fakeLastName = faker.person.lastName();
-const fakePassword = strongPassword();
-const fakeEmail = faker.internet.email({ firstName: fakeUser, lastName: fakeLastName });
+let fakeUser: string;
+let fakeLastName: string;
+let fakePassword: string;
+let fakeEmail: string;
 
-test.describe('Registration Scenario (Success)', () => {
+test.describe.serial('Registration Scenario (Success)', () => {
   test('Should register a new user with randomly generated data', async ({
     page,
   }: {
     page: Page;
   }) => {
+    // Generate credentials inside the registration test
+    fakeUser = faker.person.firstName();
+    fakeLastName = faker.person.lastName();
+    fakePassword = strongPassword();
+    fakeEmail = faker.internet.email({ firstName: fakeUser, lastName: fakeLastName });
+
     const cookiesPopup = CookiesPopup(page);
     const homePage = HomePage(page);
     const registrationPage = RegistrationPage(page);
@@ -56,6 +62,56 @@ test.describe('Registration Scenario (Success)', () => {
 
     await test.step('Verify successfully registered User', async () => {
       await expect(homePage.userAvatarMenu()).toHaveText(fakeUser + ' ' + fakeLastName);
+    });
+  });
+
+  test('Should login with correct credentials', async ({ page }) => {
+    const homePage = HomePage(page);
+    const cookiesPopup = CookiesPopup(page);
+    const loginPage = LoginPage(page);
+
+    await test.step('Open the homepage and accept cookies', async () => {
+      await page.goto('/');
+      await cookiesPopup.acceptAllButton().click();
+      await cookiesPopup.consentFormPopup().waitFor({ state: 'hidden' });
+    });
+
+    await test.step('Navigate to login page', async () => {
+      await homePage.userAvatarMenu().click();
+      await page.waitForURL('**/login');
+    });
+
+    await test.step('Login with correct credentials', async () => {
+      await loginPage.emailField().fill(fakeEmail);
+      await loginPage.passwordField().fill(fakePassword);
+      await loginPage.loginSubmitButton().click();
+      await expect(homePage.userAvatarMenu()).toHaveText(fakeUser + ' ' + fakeLastName);
+    });
+  });
+
+  test('Should not login with wrong password', async ({ page }) => {
+    const homePage = HomePage(page);
+    const cookiesPopup = CookiesPopup(page);
+    const loginPage = LoginPage(page);
+
+    await test.step('Open the homepage and accept cookies', async () => {
+      await page.goto('/');
+      await cookiesPopup.acceptAllButton().click();
+      await cookiesPopup.consentFormPopup().waitFor({ state: 'hidden' });
+    });
+
+    await test.step('Navigate to login page', async () => {
+      await homePage.userAvatarMenu().click();
+      await page.waitForURL('**/login');
+    });
+
+    await test.step('Login with wrong password', async () => {
+      await loginPage.emailField().fill(fakeEmail);
+      await loginPage.passwordField().fill('wrongPassword123!');
+      await loginPage.loginSubmitButton().click();
+      await expect(page).toHaveURL(/.*\/login/);
+      //TODO
+      // await expect(loginPage.loginErrorMessage()).toBeVisible();
     });
   });
 });

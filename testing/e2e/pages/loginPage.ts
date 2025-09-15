@@ -7,5 +7,8 @@ import type { Page } from '@playwright/test';
 export const LoginPage = (page: Page) => {
   return {
     registerAccountButton: () => page.getByTestId('registerAccount'),
+    emailField: () => page.getByTestId('loginEmailInput'),
+    passwordField: () => page.getByTestId('loginPasswordInput'),
+    loginSubmitButton: () => page.getByTestId('login-submit'),
   };
 };
