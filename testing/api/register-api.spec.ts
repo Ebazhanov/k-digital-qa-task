@@ -7,7 +7,6 @@ test.describe('API Registration', () => {
   test.beforeEach(async ({ browser }) => {
     csrfToken = await getCsrfToken(browser);
     expect(csrfToken).not.toBeNull();
-    console.log('Extracted CSRF Token:', csrfToken);
   });
 
   test.describe('API Registration with CSRF', () => {
@@ -16,7 +15,6 @@ test.describe('API Registration', () => {
       const response = await registerUser(request, user);
       const status = response.status();
       const body = await response.json().catch(() => response.text());
-      console.log('API Response:', body);
       expect(status).toBeGreaterThanOrEqual(200);
       expect(status).toBeLessThan(300);
       expect(body).toHaveProperty('userId');
@@ -33,7 +31,6 @@ test.describe('API Registration', () => {
       });
       const response = await registerUser(request, invalidUser);
       const body = await response.json().catch(() => response.text());
-      console.log('API Response (unhappy):', body);
       expect(response.status()).toBeGreaterThanOrEqual(400);
     });
   });

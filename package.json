@@ -4,18 +4,23 @@
   "description": "QA Engineer automation tasks with Playwright",
   "type": "module",
   "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "test:ui": "playwright test --ui",
-    "test:e2e": "playwright test testing/e2e",
-    "test:api": "playwright test testing/api",
-    "test:debug": "playwright test --debug",
-    "report": "playwright show-report",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:e2e": "npx playwright test testing/e2e",
+    "test:api": "npx playwright test testing/api",
+    "test:debug": "npx playwright test --debug",
+    "report": "npx playwright show-report",
     "lint": "eslint . --ext .ts --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
-  "keywords": ["playwright", "testing", "qa", "automation"],
+  "keywords": [
+    "playwright",
+    "testing",
+    "qa",
+    "automation"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -29,4 +34,3 @@
     "typescript": "^5.6.2"
   }
 }
-
