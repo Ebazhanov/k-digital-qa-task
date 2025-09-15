@@ -22,7 +22,7 @@ jobs:
       - name: Check formatting (Prettier)
         run: npm run format:check
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install chromium --with-deps
       - name: Run API tests
         run: npm run test:api
       - name: Ensure test-results directory exists

@@ -1,4 +1,6 @@
 {
+  "author": "ebazhanov",
+  "license": "ISC",
   "name": "krieger-digital-qa-task",
   "version": "1.0.0",
   "description": "QA Engineer automation tasks with Playwright",
@@ -15,14 +17,6 @@
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
-  "keywords": [
-    "playwright",
-    "testing",
-    "qa",
-    "automation"
-  ],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.48.0",
     "@faker-js/faker": "^8.4.1",

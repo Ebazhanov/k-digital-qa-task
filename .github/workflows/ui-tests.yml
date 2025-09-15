@@ -22,9 +22,9 @@ jobs:
       - name: Check formatting (Prettier)
         run: npm run format:check
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install chromium --with-deps
       - name: Run UI tests
-        run: npm test
+        run: npx playwright test testing/e2e
       - name: Ensure test-results directory exists
         run: mkdir -p test-results/
       - uses: actions/upload-artifact@v4
