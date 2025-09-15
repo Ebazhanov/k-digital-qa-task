@@ -4,9 +4,9 @@
   "description": "QA Engineer automation tasks with Playwright",
   "type": "module",
   "scripts": {
-    "test": "npx playwright test",
+    "test": "playwright test",
     "test:headed": "npx playwright test --headed",
-    "test:ui": "npx playwright test --ui",
+    "test:ui": "playwright test --ui",
     "test:e2e": "npx playwright test testing/e2e",
     "test:api": "npx playwright test testing/api",
     "test:debug": "npx playwright test --debug",
