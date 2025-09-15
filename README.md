@@ -11,12 +11,9 @@
 
 ### 🤖 E2E Automation
 
-- 💻 UI tests (Playwright, TypeScript, POM)
-  - 🔐 Registration, Login, Wishlist, Basket flows (see `testing/e2e/tests/`)
-- 🌐 API tests (Playwright, TypeScript)
-  - 🔗 Registration API tests with happy and unhappy scenarios (see `testing/api/`)
-- 🗄️ [Database Query Challenge](sql/query.sql)
-  - SQL for top 3 most expensive items by top-rated sellers
+- 💻 [UI tests: Registration, Login, Wishlist, Basket](testing/e2e/tests/) (Playwright, TypeScript)
+- 🌐 [API tests: Registration endpoint](testing/api/) (happy & unhappy paths)
+- 🗄️ [Database SQL challenge](sql/query.sql): Top 3 expensive items by top-rated sellers
 
 ### 📊 HTML Report in GH Actions
 

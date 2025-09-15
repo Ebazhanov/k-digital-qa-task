@@ -6,7 +6,6 @@ import type { Page } from '@playwright/test';
 
 export const HomePage = (page: Page) => {
   return {
-    agentSettingsButton: () => page.locator('[data-dp-name="nav-chat-btn"]'),
-    loginMenu: () => page.getByTestId('headerBrandLogin'),
+    userAvatarMenu: () => page.getByTestId('headerBrandLogin'),
   };
 };
