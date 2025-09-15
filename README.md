@@ -1,6 +1,6 @@
 # 🚀 Krieger Digital QA Task
 
-[![UI Tests](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/playwright.yml/badge.svg?branch=main)](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/playwright.yml)
+[![UI Tests](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/ui-tests.yml/badge.svg?branch=main)](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/ui-tests.yml)
 [![API Tests](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/api-tests.yml/badge.svg?branch=main)](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/api-tests.yml)
 
 ## ✨ Features
@@ -17,7 +17,7 @@
 
 ### 📊 HTML Report in GH Actions
 
-- 🧪 [UI test results](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/playwright.yml)
+- 🧪 [UI test results](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/ui-tests.yml)
 - 🌐 [API test results](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/api-tests.yml)
 - 📂 Local: `npx playwright show-report` to view the HTML report after running tests
 
