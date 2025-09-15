@@ -14,6 +14,7 @@
 - 💻 [UI tests: Registration, Login, Wishlist, Basket](testing/e2e/tests/) (Playwright, TypeScript)
 - 🌐 [API tests: Registration endpoint](testing/api/) (happy & unhappy paths)
 - 🗄️ [Database SQL challenge](sql/query.sql): Top 3 expensive items by top-rated sellers
+- 📈 [Performance test design for the checkout process](docs/performance-test.md)
 
 ### 📊 HTML Report in GH Actions
 
