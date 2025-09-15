@@ -1,30 +1,30 @@
-const tsPlugin = require('@typescript-eslint/eslint-plugin');
-const tsParser = require('@typescript-eslint/parser');
-const prettierPlugin = require('eslint-plugin-prettier');
+const typescript = require('@typescript-eslint/eslint-plugin');
+const typescriptParser = require('@typescript-eslint/parser');
+const playwright = require('eslint-plugin-playwright');
 
 module.exports = [
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ['testing/**/*.ts', '*.ts'],
     languageOptions: {
-      parser: tsParser,
+      parser: typescriptParser,
       parserOptions: {
-        project: './tsconfig.json',
+        ecmaVersion: 'latest',
         sourceType: 'module',
+        project: './tsconfig.json',
       },
     },
     plugins: {
-      '@typescript-eslint': tsPlugin,
-      prettier: prettierPlugin,
+      '@typescript-eslint': typescript,
+      playwright: playwright,
     },
     rules: {
-      ...tsPlugin.configs.recommended.rules,
-      ...prettierPlugin.configs.recommended.rules,
-      'prettier/prettier': 'warn',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      'no-console': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/consistent-type-imports': 'error',
+      'playwright/expect-expect': 'error',
+      'playwright/no-focused-test': 'error',
+      'playwright/no-page-pause': 'error',
+      'playwright/valid-title': 'error',
     },
-    ignores: ['playwright-report/', 'test-results/', 'dist/', 'node_modules/'],
   },
 ];
