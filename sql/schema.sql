@@ -1,4 +1,4 @@
--- schema.sql: Table definitions for the Database
+-- Creating tables for Sellers, Items, and Categories
 
 CREATE TABLE Sellers (
   id INT PRIMARY KEY,
