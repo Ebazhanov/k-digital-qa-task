@@ -30,7 +30,6 @@ test.describe('API Registration', () => {
         passwordConfirmation: '',
       });
       const response = await registerUser(request, invalidUser);
-      const body = await response.json().catch(() => response.text());
       expect(response.status()).toBeGreaterThanOrEqual(400);
     });
   });
