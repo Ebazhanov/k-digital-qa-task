@@ -77,8 +77,7 @@ test.describe.serial('Shopping Scenario', () => {
     const toShopCardDialog = ToShopCardDialog(page);
     const shoppingBasketPage = ShoppingBasketPage(page);
 
-    await test.step('Login with correct credentials', async () => {
-      await page.waitForTimeout(1000);
+    await test.step('Log in as the user', async () => {
       await loginPage.emailField().fill(fakeEmail);
       await loginPage.passwordField().fill(fakePassword);
       await loginPage.loginSubmitButton().click();
@@ -124,8 +123,8 @@ test.describe.serial('Shopping Scenario', () => {
           shoppingBasketPage.articleName().filter({ hasText: product.name }),
         ).toBeVisible();
         await expect(shoppingBasketPage.articlePrice('60406729')).toContainText('989,00');
-        await expect(shoppingBasketPage.articlePrice('60405810')).toBeVisible('709,00');
-        await expect(shoppingBasketPage.articlePrice('60408053')).toBeVisible('989,00');
+        await expect(shoppingBasketPage.articlePrice('60405810')).toContainText('709,00');
+        await expect(shoppingBasketPage.articlePrice('60408053')).toContainText('659,00');
         await expect(shoppingBasketPage.articlePrice('60406686')).toContainText('989,00');
         await expect(shoppingBasketPage.articlePrice('60408061')).toContainText('869,00');
       }
