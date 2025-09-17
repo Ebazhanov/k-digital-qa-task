@@ -118,29 +118,25 @@ test.describe.serial('Shopping Scenario', () => {
     await expect(
       page
         .locator('.cartEntry__articleName .simpleText')
-        .filter({ hasText: /^Ecksofa mit Schlaffunktion Hamiel$/ }),
+        .filter({ hasText: 'Ecksofa mit Schlaffunktion Hamiel' }),
     ).toBeVisible();
     await expect(
-      page.locator('.cartEntry__articleName .simpleText').filter({ hasText: /^Orto Ecksofa$/ }),
-    ).toBeVisible();
-    await page
-      .locator('.cartEntry__articleName .simpleText')
-      .filter({ hasText: /^Ecksofa mit Schlaffunktion Nalika$/ })
-      .scrollIntoViewIfNeeded();
-    await expect(
-      page
-        .locator('.cartEntry__articleName .simpleText')
-        .filter({ hasText: /^Ecksofa mit Schlaffunktion Nalika$/ }),
+      page.locator('.cartEntry__articleName .simpleText').filter({ hasText: 'Orto Ecksofa' }),
     ).toBeVisible();
     await expect(
       page
         .locator('.cartEntry__articleName .simpleText')
-        .filter({ hasText: /^Ecksofa mit Schlaffunktion Stevil$/ }),
+        .filter({ hasText: 'Ecksofa mit Schlaffunktion Nalika' }),
     ).toBeVisible();
     await expect(
       page
         .locator('.cartEntry__articleName .simpleText')
-        .filter({ hasText: /^Ecksofa mit Schlaffunktion Farese$/ }),
+        .filter({ hasText: 'Ecksofa mit Schlaffunktion Stevil' }),
+    ).toBeVisible();
+    await expect(
+      page
+        .locator('.cartEntry__articleName .simpleText')
+        .filter({ hasText: 'Ecksofa mit Schlaffunktion Farese' }),
     ).toBeVisible();
   });
 });

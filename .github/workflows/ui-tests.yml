@@ -1,4 +1,4 @@
-name: "🎭 UI Tests"
+name: '🎭 UI Tests'
 
 on:
   push:

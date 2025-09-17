@@ -1,4 +1,4 @@
-name: "🧪 API Tests"
+name: '🧪 API Tests'
 
 on:
   push:
