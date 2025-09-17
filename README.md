@@ -5,9 +5,9 @@
 
 ## ✨ Features
 
-### "Exploratory" Testing Results
+### Manual test cases
 
-- 🧪 Manual test cases for https://www.sofa.de/ (see `docs/manual-test-cases.md` or your Notion/Excel file) // TODD
+- 🧪 ([see details](docs/manual-test-cases.md))
 
 ### 🤖 E2E Automation
 
