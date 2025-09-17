@@ -7,6 +7,6 @@ import type { Page } from '@playwright/test';
 export const HomePage = (page: Page) => {
   return {
     userAvatarMenu: () => page.getByTestId('headerBrandLogin'),
-    userWishList: () => page.getByTestId('headerBrandWishlist'),
+    userSuccessLoginIcon: () => page.locator('.headerElement__text--login'),
   };
 };

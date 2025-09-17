@@ -17,6 +17,13 @@ let fakeEmail: string;
 
 const productIds = ['60406729', '60408061', '60405810', '60408053', '60406686'];
 const productsInfo: { id: string; name: string; price: string }[] = [];
+const expectedPrices: Record<string, string> = {
+  '60406729': '989,00',
+  '60405810': '709,00',
+  '60408053': '659,00',
+  '60406686': '989,00',
+  '60408061': '869,00',
+};
 
 test.describe.serial('Shopping Scenario', () => {
   test.beforeAll(async () => {
@@ -81,7 +88,7 @@ test.describe.serial('Shopping Scenario', () => {
       await loginPage.emailField().fill(fakeEmail);
       await loginPage.passwordField().fill(fakePassword);
       await loginPage.loginSubmitButton().click();
-      await loginPage.loginSubmitButton().waitFor({ state: 'hidden' });
+      await homePage.userSuccessLoginIcon().waitFor({ state: 'visible' });
       await expect(homePage.userAvatarMenu()).toHaveText(fakeUser + ' ' + fakeLastName);
     });
 
@@ -117,16 +124,14 @@ test.describe.serial('Shopping Scenario', () => {
       await toShopCardDialog.toShoppingCardButton().click();
     });
 
-    await test.step('Verify all products are in the basket', async () => {
+    await test.step('Verify products details in the basket', async () => {
       for (const product of productsInfo) {
         await expect(
           shoppingBasketPage.articleName().filter({ hasText: product.name }),
         ).toBeVisible();
-        await expect(shoppingBasketPage.articlePrice('60406729')).toContainText('989,00');
-        await expect(shoppingBasketPage.articlePrice('60405810')).toContainText('709,00');
-        await expect(shoppingBasketPage.articlePrice('60408053')).toContainText('659,00');
-        await expect(shoppingBasketPage.articlePrice('60406686')).toContainText('989,00');
-        await expect(shoppingBasketPage.articlePrice('60408061')).toContainText('869,00');
+        await expect(shoppingBasketPage.articlePrice(product.id)).toContainText(
+          expectedPrices[product.id],
+        );
       }
     });
   });
