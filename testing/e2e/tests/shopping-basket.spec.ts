@@ -110,9 +110,8 @@ test.describe.serial('Shopping Scenario', () => {
     });
 
     await test.step('Go to wishlist and prepare for adding to basket', async () => {
-      await homePage.userWishList().click();
+      await page.goto('/wunschliste');
       await wishListPage.zipCodeField().clear();
-      await page.waitForTimeout(500); //TODO should be improved
       await wishListPage.zipCodeField().fill('13127');
       await wishListPage.addToWishList().click();
       await expect(toShopCardDialog.assertSuccessMessage('Gute Wahl!')).toBeVisible();
