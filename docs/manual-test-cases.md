@@ -2,7 +2,23 @@
 
 Below are example manual test cases for https://www.sofa.de/ to ensure broad coverage of key functionalities.
 
-### Test Case 1: Browse & Add to Cart
+### Test Case 1: Shopping & Wishlist Flow
+
+**Steps:**
+
+1. Log in with a valid user.
+2. Navigate to a category page (e.g., Sofas, Echtsofa).
+3. Randomly select 5 products and add them to the wishlist.
+4. Open the wishlist and verify each product’s details (name, price, etc.) match the category page.
+5. Add all 5 wishlist items to the basket.
+6. Open the basket and review items.
+
+**Expected Result:**  
+All 5 selected products appear in the wishlist with correct details. Basket contains all 5 items with accurate name, price, and quantity.
+
+---
+
+### Test Case 2: Browse & Add to Cart (Filters & Sorting)
 
 **Steps:**
 
@@ -17,21 +33,22 @@ Filters and sorting work as expected. Product details are correct. Cart updates 
 
 ---
 
-### Test Case 2: Login, Wishlist & Checkout Flow
+### Test Case 3: Checkout Flow
 
 **Steps:**
 
 1. Log in with a valid account.
-2. Add a product to the wishlist.
-3. Move the product from wishlist to cart.
-4. Go to checkout, enter address, and select payment method.
+2. Add product(s) to cart.
+3. Proceed to checkout.
+4. Enter shipping address and select payment method.
+5. Review and confirm order.
 
 **Expected Result:**  
-Wishlist and cart are synchronized. Checkout displays correct totals and payment options.
+Checkout displays correct totals, shipping, and payment options. Order confirmation is shown.
 
 ---
 
-### Test Case 3: Search Functionality
+### Test Case 4: Search Functionality
 
 **Steps:**
 
@@ -40,11 +57,11 @@ Wishlist and cart are synchronized. Checkout displays correct totals and payment
 3. Open one product from the results.
 
 **Expected Result:**  
-Only relevant sofas appear. Product page opens correctly.
+Relevant sofas appear. Product page opens correctly.
 
 ---
 
-### Test Case 4: Newsletter Subscription
+### Test Case 5: Newsletter Subscription
 
 **Steps:**
 
@@ -52,11 +69,11 @@ Only relevant sofas appear. Product page opens correctly.
 2. Submit the form.
 
 **Expected Result:**  
-A success message is shown and a confirmation email is received.
+A success message is shown, and a confirmation email is received.
 
 ---
 
-### Test Case 5: Contact Form Submission
+### Test Case 6: Contact Form Submission
 
 **Steps:**
 
