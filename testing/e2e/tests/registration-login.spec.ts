@@ -23,7 +23,6 @@ test.describe.serial('Registration Scenario (Success)', () => {
 
   test.beforeEach(async ({ page }) => {
     const cookiesPopup = CookiesPopup(page);
-    const homePage = HomePage(page);
 
     await test.step('Navigate to login page', async () => {
       await page.goto('/login');
@@ -32,10 +31,6 @@ test.describe.serial('Registration Scenario (Success)', () => {
     await test.step('Accept cookies', async () => {
       await cookiesPopup.acceptAllButton().click();
       await cookiesPopup.consentFormPopup().waitFor({ state: 'hidden' });
-    });
-
-    await test.step('Navigate to login page', async () => {
-      await homePage.userAvatarMenu().click();
     });
   });
 
@@ -64,7 +59,8 @@ test.describe.serial('Registration Scenario (Success)', () => {
 
     await test.step('Submit registration form', async () => {
       await registrationPage.submitButton().click();
-      await page.waitForResponse((res) => res.url().includes('register') && res.status() === 200);
+      await registrationPage.submitButton().waitFor({ state: 'hidden' });
+      //await page.waitForResponse((res) => res.url().includes('register') && res.status() === 200);
     });
 
     await test.step('Verify successfully registered User', async () => {

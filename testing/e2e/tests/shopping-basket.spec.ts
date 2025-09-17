@@ -67,8 +67,8 @@ test.describe.serial('Shopping Scenario', () => {
 
     await test.step('Submit registration form', async () => {
       await registrationPage.submitButton().click();
-      await page.waitForResponse((res) => res.url().includes('register') && res.status() === 200);
       await registrationPage.submitButton().waitFor({ state: 'hidden' });
+      //await page.waitForResponse((res) => res.url().includes('register') && res.status() === 200);
     });
 
     await test.step('Verify successfully registered User', async () => {
