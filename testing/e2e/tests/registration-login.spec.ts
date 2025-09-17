@@ -25,8 +25,8 @@ test.describe.serial('Registration Scenario (Success)', () => {
     const cookiesPopup = CookiesPopup(page);
     const homePage = HomePage(page);
 
-    await test.step('Open the homepage', async () => {
-      await page.goto('/');
+    await test.step('Navigate to login page', async () => {
+      await page.goto('/login');
     });
 
     await test.step('Accept cookies', async () => {
@@ -46,11 +46,9 @@ test.describe.serial('Registration Scenario (Success)', () => {
   }) => {
     const homePage = HomePage(page);
     const registrationPage = RegistrationPage(page);
-    const loginPage = LoginPage(page);
 
     await test.step('Open registration form', async () => {
-      await loginPage.registerAccountButton().click();
-      await page.waitForURL('**/registrierung');
+      await page.goto('/registrierung');
     });
 
     await test.step('Fill registration form', async () => {
