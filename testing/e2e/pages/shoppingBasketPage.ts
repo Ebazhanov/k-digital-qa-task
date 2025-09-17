@@ -7,5 +7,6 @@ import type { Page } from '@playwright/test';
 export const ShoppingBasketPage = (page: Page) => {
   return {
     articleName: () => page.locator('.cartEntry__articleName .simpleText'),
+    articlePrice: () => page.locator('.articleCartPrices .priceNew'),
   };
 };

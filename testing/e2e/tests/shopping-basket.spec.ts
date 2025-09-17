@@ -15,6 +15,9 @@ let fakeLastName: string;
 let fakePassword: string;
 let fakeEmail: string;
 
+const productIds = ['60406729', '60408061', '60405810', '60408053', '60406686'];
+const productsInfo: { id: string; name: string; price: string }[] = [];
+
 test.describe.serial('Shopping Scenario', () => {
   test.beforeAll(async () => {
     fakeUser = faker.person.firstName();
@@ -80,9 +83,6 @@ test.describe.serial('Shopping Scenario', () => {
     const toShopCardDialog = ToShopCardDialog(page);
     const shoppingBasketPage = ShoppingBasketPage(page);
 
-    const productIds = ['60406729', '60408061', '60405810', '60408053', '60406772'];
-    const productsInfo: { id: string; name: string; price: string }[] = [];
-
     await test.step('Login with correct credentials', async () => {
       await loginPage.emailField().fill(fakeEmail);
       await loginPage.passwordField().fill(fakePassword);
@@ -91,23 +91,63 @@ test.describe.serial('Shopping Scenario', () => {
       await expect(homePage.userAvatarMenu()).toHaveText(fakeUser + ' ' + fakeLastName);
     });
 
-    await test.step('Add five products to wishlist', async () => {
+    await test.step('Go to ecksofas category page', async () => {
       await page.goto('/ecksofas');
-      for (const id of productIds) {
-        await productPage.productWishListHeartIconById(id).click();
-        await productPage.productWishListSelectedIconById(id).waitFor({ state: 'visible' });
-      }
     });
 
     await test.step('Save price and product name before adding', async () => {
+      // Save product info without using a for loop
+      const id1 = productIds[0];
+      const id2 = productIds[1];
+      const id3 = productIds[2];
+      const id4 = productIds[3];
+      const id5 = productIds[4];
+
+      const nameLocator1 = page.locator(`[data-testid="p-id-${id1}"] h3`);
+      const priceLocator1 = page.locator(`[data-testid="p-id-${id1}"] [data-testid="orgp"]`);
+      await nameLocator1.waitFor({ state: 'visible', timeout: 1000 });
+      await priceLocator1.waitFor({ state: 'visible', timeout: 1000 });
+      const name1 = await nameLocator1.innerText();
+      const price1 = await priceLocator1.innerText();
+      productsInfo.push({ id: id1, name: name1, price: price1 });
+
+      const nameLocator2 = page.locator(`[data-testid="p-id-${id2}"] h3`);
+      const priceLocator2 = page.locator(`[data-testid="p-id-${id2}"] [data-testid="orgp"]`);
+      await nameLocator2.waitFor({ state: 'visible', timeout: 1000 });
+      await priceLocator2.waitFor({ state: 'visible', timeout: 1000 });
+      const name2 = await nameLocator2.innerText();
+      const price2 = await priceLocator2.innerText();
+      productsInfo.push({ id: id2, name: name2, price: price2 });
+
+      const nameLocator3 = page.locator(`[data-testid="p-id-${id3}"] h3`);
+      const priceLocator3 = page.locator(`[data-testid="p-id-${id3}"] [data-testid="orgp"]`);
+      await nameLocator3.waitFor({ state: 'visible', timeout: 1000 });
+      await priceLocator3.waitFor({ state: 'visible', timeout: 1000 });
+      const name3 = await nameLocator3.innerText();
+      const price3 = await priceLocator3.innerText();
+      productsInfo.push({ id: id3, name: name3, price: price3 });
+
+      const nameLocator4 = page.locator(`[data-testid="p-id-${id4}"] h3`);
+      const priceLocator4 = page.locator(`[data-testid="p-id-${id4}"] [data-testid="orgp"]`);
+      await nameLocator4.waitFor({ state: 'visible', timeout: 1000 });
+      await priceLocator4.waitFor({ state: 'visible', timeout: 1000 });
+      const name4 = await nameLocator4.innerText();
+      const price4 = await priceLocator4.innerText();
+      productsInfo.push({ id: id4, name: name4, price: price4 });
+
+      const nameLocator5 = page.locator(`[data-testid="p-id-${id5}"] h3`);
+      const priceLocator5 = page.locator(`[data-testid="p-id-${id5}"] [data-testid="orgp"]`);
+      await nameLocator5.waitFor({ state: 'visible' });
+      await priceLocator5.waitFor({ state: 'visible' });
+      const name5 = await nameLocator5.innerText();
+      const price5 = await priceLocator5.innerText();
+      productsInfo.push({ id: id5, name: name5, price: price5 });
+    });
+
+    await test.step('Add five products to wishlist', async () => {
       for (const id of productIds) {
-        const name = await page
-          .locator(`[data-testid="p-id-${id}"] [data-testid="product-title"]`)
-          .innerText();
-        const price = await page
-          .locator(`[data-testid="p-id-${id}"] [data-testid="orgp"]`)
-          .innerText();
-        productsInfo.push({ id, name, price });
+        await productPage.productWishListHeartIconById(id).click();
+        await productPage.productWishListSelectedIconById(id).waitFor({ state: 'visible' });
       }
     });
 
@@ -126,8 +166,11 @@ test.describe.serial('Shopping Scenario', () => {
         await expect(
           shoppingBasketPage.articleName().filter({ hasText: product.name }),
         ).toBeVisible();
-        // Optionally, you can also check the price if needed
-        // await expect(shoppingBasketPage.articlePrice().filter({ hasText: product.price })).toBeVisible();
+        await expect(page.getByTestId('60406729').getByTestId('orgp')).toContainText('989,00');
+        await expect(page.getByTestId('60405810').getByTestId('orgp')).toBeVisible('709,00');
+        await expect(page.getByTestId('60408053').getByTestId('orgp')).toBeVisible('989,00');
+        await expect(page.getByTestId('60406686').getByTestId('orgp')).toContainText('989,00');
+        await expect(page.getByTestId('60408061').getByTestId('orgp')).toContainText('869,00');
       }
     });
   });

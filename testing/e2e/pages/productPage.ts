@@ -9,6 +9,6 @@ export const ProductPage = (page: Page) => {
     productWishListHeartIconById: (productId: string) =>
       page.locator(`[data-testid="p-id-${productId}"] [data-testid="wishlistHeart"]`),
     productWishListSelectedIconById: (productId: string) =>
-      page.locator('[data-testid="p-id-60406729"] [data-testid="wishlistHeartFilled"]'),
+      page.locator(`[data-testid="p-id-${productId}"] [data-testid="wishlistHeartFilled"]`),
   };
 };
