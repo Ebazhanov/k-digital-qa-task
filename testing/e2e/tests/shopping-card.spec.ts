@@ -44,7 +44,7 @@ test.describe.serial('Shopping Scenario', () => {
 
     await test.step('Open registration form', async () => {
       await loginPage.registerAccountButton().click();
-      await page.waitForURL('**/registrierung');
+      //await page.waitForURL('**/registrierung');
     });
 
     await test.step('Fill registration form', async () => {
@@ -68,7 +68,7 @@ test.describe.serial('Shopping Scenario', () => {
     });
   });
 
-  test('Should add to wischlist then to warencord', async ({ page }) => {
+  test('Should add five products to wishlist and verify in cart', async ({ page }) => {
     const homePage = HomePage(page);
     const loginPage = LoginPage(page);
 
@@ -80,63 +80,68 @@ test.describe.serial('Shopping Scenario', () => {
       await expect(homePage.userAvatarMenu()).toHaveText(fakeUser + ' ' + fakeLastName);
     });
 
-    // Product #1
-    await page.goto('https://www.sofa.de/ecksofas');
-    await page.locator('[data-testid="p-id-60406729"] [data-testid="wishlistHeart"]').click();
-    await page
-      .locator('[data-testid="p-id-60406729"] [data-testid="wishlistHeartFilled"]')
-      .waitFor({ state: 'visible' });
-    await page.locator('[data-testid="p-id-60408061"] [data-testid="wishlistHeart"]').click();
-    await page
-      .locator('[data-testid="p-id-60408061"] [data-testid="wishlistHeartFilled"]')
-      .waitFor({ state: 'visible' });
-    await page.locator('[data-testid="p-id-60405810"] [data-testid="wishlistHeart"]').click();
-    await page
-      .locator('[data-testid="p-id-60405810"] [data-testid="wishlistHeartFilled"]')
-      .waitFor({ state: 'visible' });
-    await page.locator('[data-testid="p-id-60408053"] [data-testid="wishlistHeart"]').click();
-    await page
-      .locator('[data-testid="p-id-60408053"] [data-testid="wishlistHeartFilled"]')
-      .waitFor({ state: 'visible' });
-    await page.locator('[data-testid="p-id-60406772"] [data-testid="wishlistHeart"]').click();
-    await page
-      .locator('[data-testid="p-id-60406772"] [data-testid="wishlistHeartFilled"]')
-      .waitFor({ state: 'visible' });
+    await test.step('Add five products to wishlist', async () => {
+      await page.goto('https://www.sofa.de/ecksofas');
+      await page.locator('[data-testid="p-id-60406729"] [data-testid="wishlistHeart"]').click();
+      await page
+        .locator('[data-testid="p-id-60406729"] [data-testid="wishlistHeartFilled"]')
+        .waitFor({ state: 'visible' });
+      await page.locator('[data-testid="p-id-60408061"] [data-testid="wishlistHeart"]').click();
+      await page
+        .locator('[data-testid="p-id-60408061"] [data-testid="wishlistHeartFilled"]')
+        .waitFor({ state: 'visible' });
+      await page.locator('[data-testid="p-id-60405810"] [data-testid="wishlistHeart"]').click();
+      await page
+        .locator('[data-testid="p-id-60405810"] [data-testid="wishlistHeartFilled"]')
+        .waitFor({ state: 'visible' });
+      await page.locator('[data-testid="p-id-60408053"] [data-testid="wishlistHeart"]').click();
+      await page
+        .locator('[data-testid="p-id-60408053"] [data-testid="wishlistHeartFilled"]')
+        .waitFor({ state: 'visible' });
+      await page.locator('[data-testid="p-id-60406772"] [data-testid="wishlistHeart"]').click();
+      await page
+        .locator('[data-testid="p-id-60406772"] [data-testid="wishlistHeartFilled"]')
+        .waitFor({ state: 'visible' });
+    });
 
-    await page.getByTestId('headerBrandWishlist').click();
-    await page
-      .locator('.wishlist__postalCodeArea [data-testid="zipcode-logistic-inputInput"]')
-      .clear();
-    await page.waitForTimeout(500);
-    await page
-      .locator('.wishlist__postalCodeArea [data-testid="zipcode-logistic-inputInput"]')
-      .fill('13127');
-    await page.getByTestId('addAddToWishlist').click();
-    await expect(page.locator('#overlayRight').getByText('Gute Wahl!')).toBeVisible();
-    await page.getByRole('link', { name: 'Zum Warenkorb' }).click();
+    await test.step('Go to wishlist and prepare for adding to cart', async () => {
+      await page.getByTestId('headerBrandWishlist').click();
+      await page
+        .locator('.wishlist__postalCodeArea [data-testid="zipcode-logistic-inputInput"]')
+        .clear();
+      await page.waitForTimeout(500);
+      await page
+        .locator('.wishlist__postalCodeArea [data-testid="zipcode-logistic-inputInput"]')
+        .fill('13127');
+      await page.getByTestId('addAddToWishlist').click();
+      await expect(page.locator('#overlayRight').getByText('Gute Wahl!')).toBeVisible();
+      await page.getByRole('link', { name: 'Zum Warenkorb' }).click();
+    });
 
-    await expect(
-      page
-        .locator('.cartEntry__articleName .simpleText')
-        .filter({ hasText: 'Ecksofa mit Schlaffunktion Hamiel' }),
-    ).toBeVisible();
-    await expect(
-      page.locator('.cartEntry__articleName .simpleText').filter({ hasText: 'Orto Ecksofa' }),
-    ).toBeVisible();
-    await expect(
-      page
-        .locator('.cartEntry__articleName .simpleText')
-        .filter({ hasText: 'Ecksofa mit Schlaffunktion Nalika' }),
-    ).toBeVisible();
-    await expect(
-      page
-        .locator('.cartEntry__articleName .simpleText')
-        .filter({ hasText: 'Ecksofa mit Schlaffunktion Stevil' }),
-    ).toBeVisible();
-    await expect(
-      page
-        .locator('.cartEntry__articleName .simpleText')
-        .filter({ hasText: 'Ecksofa mit Schlaffunktion Farese' }),
-    ).toBeVisible();
+    await test.step('Verify all products are in the cart', async () => {
+      await expect(
+        page
+          .locator('.cartEntry__articleName .simpleText')
+          .filter({ hasText: 'Ecksofa mit Schlaffunktion Hamiel' }),
+      ).toBeVisible();
+      await expect(
+        page.locator('.cartEntry__articleName .simpleText').filter({ hasText: 'Orto Ecksofa' }),
+      ).toBeVisible();
+      await expect(
+        page
+          .locator('.cartEntry__articleName .simpleText')
+          .filter({ hasText: 'Ecksofa mit Schlaffunktion Nalika' }),
+      ).toBeVisible();
+      await expect(
+        page
+          .locator('.cartEntry__articleName .simpleText')
+          .filter({ hasText: 'Ecksofa mit Schlaffunktion Stevil' }),
+      ).toBeVisible();
+      await expect(
+        page
+          .locator('.cartEntry__articleName .simpleText')
+          .filter({ hasText: 'Ecksofa mit Schlaffunktion Farese' }),
+      ).toBeVisible();
+    });
   });
 });
