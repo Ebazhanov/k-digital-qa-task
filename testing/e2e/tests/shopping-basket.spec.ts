@@ -123,11 +123,11 @@ test.describe.serial('Shopping Scenario', () => {
         await expect(
           shoppingBasketPage.articleName().filter({ hasText: product.name }),
         ).toBeVisible();
-        await expect(page.getByTestId('60406729').getByTestId('orgp')).toContainText('989,00');
-        await expect(page.getByTestId('60405810').getByTestId('orgp')).toBeVisible('709,00');
-        await expect(page.getByTestId('60408053').getByTestId('orgp')).toBeVisible('989,00');
-        await expect(page.getByTestId('60406686').getByTestId('orgp')).toContainText('989,00');
-        await expect(page.getByTestId('60408061').getByTestId('orgp')).toContainText('869,00');
+        await expect(shoppingBasketPage.articlePrice('60406729')).toContainText('989,00');
+        await expect(shoppingBasketPage.articlePrice('60405810')).toBeVisible('709,00');
+        await expect(shoppingBasketPage.articlePrice('60408053')).toBeVisible('989,00');
+        await expect(shoppingBasketPage.articlePrice('60406686')).toContainText('989,00');
+        await expect(shoppingBasketPage.articlePrice('60408061')).toContainText('869,00');
       }
     });
   });
