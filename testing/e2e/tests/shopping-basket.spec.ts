@@ -96,15 +96,12 @@ test.describe.serial('Shopping Scenario', () => {
       await page.goto('/ecksofas');
     });
 
-    await test.step('Save price and product name before adding', async () => {
-      for (const id of productIds) {
-        const nameLocator = page.locator(`[data-testid="p-id-${id}"] h3`);
-        const priceLocator = page.locator(`[data-testid="p-id-${id}"] [data-testid="orgp"]`);
-        await nameLocator.waitFor({ state: 'visible' });
-        await priceLocator.waitFor({ state: 'visible' });
-        const name = await nameLocator.innerText();
-        const price = await priceLocator.innerText();
-        productsInfo.push({ id, name, price });
+    await test.step('Verify product name and price before adding to wishlist', async () => {
+      for (const product of productsInfo) {
+        await expect(productPage.productNameById(product.id)).toHaveText(product.name);
+        await expect(productPage.productPriceById(product.id)).toContainText(
+          expectedPrices[product.id],
+        );
       }
     });
 

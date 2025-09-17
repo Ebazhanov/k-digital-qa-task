@@ -6,11 +6,22 @@ export function strongPassword(): string {
   const digit = faker.string.numeric(1);
   const special = faker.helpers.arrayElement(['!', '@', '#', '$', '%', '^', '&', '*']);
   const allChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
-  const restLength = 6; // insgesamt 10 - 4 erforderlich
+  const minLength = 8;
+  const requiredChars = [upper, lower, digit, special];
   let rest = '';
-  for (let i = 0; i < restLength; i++) {
+  for (let i = 0; i < minLength - requiredChars.length; i++) {
     rest += allChars.charAt(Math.floor(Math.random() * allChars.length));
   }
-  const base = [upper, lower, digit, special, ...rest.split('')];
-  return faker.helpers.shuffle(base).join('');
+  const base = [...requiredChars, ...rest.split('')];
+  const password = faker.helpers.shuffle(base).join('');
+  if (
+    !/[a-z]/.test(password) ||
+    !/[A-Z]/.test(password) ||
+    !/[0-9]/.test(password) ||
+    !/[!@#$%^&*]/.test(password) ||
+    password.length < 8
+  ) {
+    return strongPassword();
+  }
+  return password;
 }
