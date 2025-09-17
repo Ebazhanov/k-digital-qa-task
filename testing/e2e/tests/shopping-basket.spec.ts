@@ -5,6 +5,10 @@ import { strongPassword } from '../util/strongPassword.js';
 import { HomePage } from '../pages/homePage.js';
 import { RegistrationPage } from '../pages/registrationPage.js';
 import { LoginPage } from '../pages/loginPage.js';
+import { ProductPage } from '../pages/productPage';
+import { WishListPage } from '../pages/wishListPage';
+import { ToShopCardDialog } from '../pages/common/toShopCardDialog';
+import { ShoppingBasketPage } from '../pages/shoppingBasketPage';
 
 let fakeUser: string;
 let fakeLastName: string;
@@ -71,6 +75,13 @@ test.describe.serial('Shopping Scenario', () => {
   test('Should add five products to wishlist and verify in cart', async ({ page }) => {
     const homePage = HomePage(page);
     const loginPage = LoginPage(page);
+    const productPage = ProductPage(page);
+    const wishListPage = WishListPage(page);
+    const toShopCardDialog = ToShopCardDialog(page);
+    const shoppingBasketPage = ShoppingBasketPage(page);
+
+    const productIds = ['60406729', '60408061', '60405810', '60408053', '60406772'];
+    const productsInfo: { id: string; name: string; price: string }[] = [];
 
     await test.step('Login with correct credentials', async () => {
       await loginPage.emailField().fill(fakeEmail);
@@ -81,67 +92,43 @@ test.describe.serial('Shopping Scenario', () => {
     });
 
     await test.step('Add five products to wishlist', async () => {
-      await page.goto('https://www.sofa.de/ecksofas');
-      await page.locator('[data-testid="p-id-60406729"] [data-testid="wishlistHeart"]').click();
-      await page
-        .locator('[data-testid="p-id-60406729"] [data-testid="wishlistHeartFilled"]')
-        .waitFor({ state: 'visible' });
-      await page.locator('[data-testid="p-id-60408061"] [data-testid="wishlistHeart"]').click();
-      await page
-        .locator('[data-testid="p-id-60408061"] [data-testid="wishlistHeartFilled"]')
-        .waitFor({ state: 'visible' });
-      await page.locator('[data-testid="p-id-60405810"] [data-testid="wishlistHeart"]').click();
-      await page
-        .locator('[data-testid="p-id-60405810"] [data-testid="wishlistHeartFilled"]')
-        .waitFor({ state: 'visible' });
-      await page.locator('[data-testid="p-id-60408053"] [data-testid="wishlistHeart"]').click();
-      await page
-        .locator('[data-testid="p-id-60408053"] [data-testid="wishlistHeartFilled"]')
-        .waitFor({ state: 'visible' });
-      await page.locator('[data-testid="p-id-60406772"] [data-testid="wishlistHeart"]').click();
-      await page
-        .locator('[data-testid="p-id-60406772"] [data-testid="wishlistHeartFilled"]')
-        .waitFor({ state: 'visible' });
+      await page.goto('/ecksofas');
+      for (const id of productIds) {
+        await productPage.productWishListHeartIconById(id).click();
+        await productPage.productWishListSelectedIconById(id).waitFor({ state: 'visible' });
+      }
     });
 
-    await test.step('Go to wishlist and prepare for adding to cart', async () => {
-      await page.getByTestId('headerBrandWishlist').click();
-      await page
-        .locator('.wishlist__postalCodeArea [data-testid="zipcode-logistic-inputInput"]')
-        .clear();
-      await page.waitForTimeout(500);
-      await page
-        .locator('.wishlist__postalCodeArea [data-testid="zipcode-logistic-inputInput"]')
-        .fill('13127');
-      await page.getByTestId('addAddToWishlist').click();
-      await expect(page.locator('#overlayRight').getByText('Gute Wahl!')).toBeVisible();
-      await page.getByRole('link', { name: 'Zum Warenkorb' }).click();
+    await test.step('Save price and product name before adding', async () => {
+      for (const id of productIds) {
+        const name = await page
+          .locator(`[data-testid="p-id-${id}"] [data-testid="product-title"]`)
+          .innerText();
+        const price = await page
+          .locator(`[data-testid="p-id-${id}"] [data-testid="orgp"]`)
+          .innerText();
+        productsInfo.push({ id, name, price });
+      }
     });
 
-    await test.step('Verify all products are in the cart', async () => {
-      await expect(
-        page
-          .locator('.cartEntry__articleName .simpleText')
-          .filter({ hasText: 'Ecksofa mit Schlaffunktion Hamiel' }),
-      ).toBeVisible();
-      await expect(
-        page.locator('.cartEntry__articleName .simpleText').filter({ hasText: 'Orto Ecksofa' }),
-      ).toBeVisible();
-      await expect(
-        page
-          .locator('.cartEntry__articleName .simpleText')
-          .filter({ hasText: 'Ecksofa mit Schlaffunktion Nalika' }),
-      ).toBeVisible();
-      await expect(
-        page
-          .locator('.cartEntry__articleName .simpleText')
-          .filter({ hasText: 'Ecksofa mit Schlaffunktion Stevil' }),
-      ).toBeVisible();
-      await expect(
-        page
-          .locator('.cartEntry__articleName .simpleText')
-          .filter({ hasText: 'Ecksofa mit Schlaffunktion Farese' }),
-      ).toBeVisible();
+    await test.step('Go to wishlist and prepare for adding to basket', async () => {
+      await homePage.userWishList().click();
+      await wishListPage.zipCodeField().clear();
+      await page.waitForTimeout(500); //TODO should be improved
+      await wishListPage.zipCodeField().fill('13127');
+      await wishListPage.addToWishList().click();
+      await expect(toShopCardDialog.assertSuccessMessage('Gute Wahl!')).toBeVisible();
+      await toShopCardDialog.toShoppingCardButton().click();
+    });
+
+    await test.step('Verify all products are in the basket', async () => {
+      for (const product of productsInfo) {
+        await expect(
+          shoppingBasketPage.articleName().filter({ hasText: product.name }),
+        ).toBeVisible();
+        // Optionally, you can also check the price if needed
+        // await expect(shoppingBasketPage.articlePrice().filter({ hasText: product.price })).toBeVisible();
+      }
     });
   });
 });
