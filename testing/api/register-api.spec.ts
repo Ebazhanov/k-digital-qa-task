@@ -22,6 +22,8 @@ test.describe('API Registration', () => {
 
     test('Unhappy Path - missing fields', async ({ request }) => {
       const invalidUser = generateUser(csrfToken, {
+        salutation: '',
+        firstName: '',
         lastName: '',
         email: '',
         password: '',

@@ -1,12 +1,12 @@
 import type { Page } from '@playwright/test';
 
 /**
- * Shopping Basket Dialog
+ * Shopping Card Dialog
  * */
 
-export const ToShopBasketDialog = (page: Page) => {
+export const ToShopCardDialog = (page: Page) => {
   return {
     assertSuccessMessage: (message: string) => page.locator('#overlayRight').getByText(message),
-    toShoppingBasketButton: () => page.getByRole('link', { name: 'Zum Warenkorb' }),
+    toShoppingCardButton: () => page.getByRole('link', { name: 'Zum Warenkorb' }),
   };
 };

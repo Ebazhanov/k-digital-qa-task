@@ -7,7 +7,7 @@ import { RegistrationPage } from '../pages/registrationPage.js';
 import { LoginPage } from '../pages/loginPage.js';
 import { ProductPage } from '../pages/productPage';
 import { WishListPage } from '../pages/wishListPage';
-import { ToShopBasketDialog } from '../pages/common/toShopBasketDialog';
+import { ToShopCardDialog } from '../pages/common/toShopCardDialog';
 import { ShoppingBasketPage } from '../pages/shoppingBasketPage';
 
 let fakeUser: string;
@@ -15,13 +15,15 @@ let fakeLastName: string;
 let fakePassword: string;
 let fakeEmail: string;
 
-const productsInfo: { id: string; price: string; name?: string }[] = [
-  { id: '60406729', price: '989,00' },
-  { id: '60408061', price: '869,00' },
-  { id: '60405810', price: '709,00' },
-  { id: '60408053', price: '659,00' },
-  { id: '60406686', price: '989,00' },
-];
+const productIds = ['60406729', '60408061', '60405810', '60408053', '60406686'];
+const productsInfo: { id: string; name: string; price: string }[] = [];
+const expectedPrices: Record<string, string> = {
+  '60406729': '989,00',
+  '60405810': '709,00',
+  '60408053': '659,00',
+  '60406686': '989,00',
+  '60408061': '869,00',
+};
 
 test.describe.serial('Shopping Scenario', () => {
   test.beforeAll(async () => {
@@ -79,7 +81,7 @@ test.describe.serial('Shopping Scenario', () => {
     const loginPage = LoginPage(page);
     const productPage = ProductPage(page);
     const wishListPage = WishListPage(page);
-    const toShopCardDialog = ToShopBasketDialog(page);
+    const toShopCardDialog = ToShopCardDialog(page);
     const shoppingBasketPage = ShoppingBasketPage(page);
 
     await test.step('Log in as the user', async () => {
@@ -97,12 +99,14 @@ test.describe.serial('Shopping Scenario', () => {
     await test.step('Verify product name and price before adding to wishlist', async () => {
       for (const product of productsInfo) {
         await expect(productPage.productNameById(product.id)).toHaveText(product.name);
-        await expect(productPage.productPriceById(product.id)).toContainText(product.price);
+        await expect(productPage.productPriceById(product.id)).toContainText(
+          expectedPrices[product.id],
+        );
       }
     });
 
     await test.step('Add five products to wishlist', async () => {
-      for (const { id } of productsInfo) {
+      for (const id of productIds) {
         await productPage.productWishListHeartIconById(id).click();
         await productPage.productWishListSelectedIconById(id).waitFor({ state: 'visible' });
       }
@@ -114,7 +118,7 @@ test.describe.serial('Shopping Scenario', () => {
       await wishListPage.zipCodeField().fill('13127');
       await wishListPage.addToWishList().click();
       await expect(toShopCardDialog.assertSuccessMessage('Gute Wahl!')).toBeVisible();
-      await toShopCardDialog.toShoppingBasketButton().click();
+      await toShopCardDialog.toShoppingCardButton().click();
     });
 
     await test.step('Verify products details in the basket', async () => {
@@ -122,7 +126,9 @@ test.describe.serial('Shopping Scenario', () => {
         await expect(
           shoppingBasketPage.articleName().filter({ hasText: product.name }),
         ).toBeVisible();
-        await expect(shoppingBasketPage.articlePrice(product.id)).toContainText(product.price);
+        await expect(shoppingBasketPage.articlePrice(product.id)).toContainText(
+          expectedPrices[product.id],
+        );
       }
     });
   });
