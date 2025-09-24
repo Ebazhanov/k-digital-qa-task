@@ -1,4 +1,4 @@
-# 🚀 Krieger Digital QA Task
+# 🚀 K.. Digital QA Task
 
 [![UI Tests](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/ui-tests.yml/badge.svg?branch=main)](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/ui-tests.yml)
 [![API Tests](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/api-tests.yml/badge.svg?branch=main)](https://github.com/Ebazhanov/krieger-digital-qa-task/actions/workflows/api-tests.yml)
